@@ -1,9 +1,17 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
+<<<<<<< HEAD
 [ext_resource path="res://IsomaticTileSet.tres" type="TileSet" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://Sprite.gd" type="Script" id=4]
+=======
+[ext_resource path="res://a.png" type="Texture" id=2]
+[ext_resource path="res://Sprite.gd" type="Script" id=3]
+>>>>>>> fbefa1de688a0e79c187894aa3c89fdaf6fafa95
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 31.3539, 31.8772 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -27,6 +35,21 @@ tile_data = PoolIntArray( 1, 21, 0, 2, 21, 0, 3, 21, 0, 4, 21, 0, 5, 21, 0, 6, 2
 
 [node name="Player" type="Sprite" parent="."]
 position = Vector2( 364.776, 173.344 )
+<<<<<<< HEAD
 texture = ExtResource( 3 )
 script = ExtResource( 4 )
+=======
+scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+vframes = 4
+hframes = 4
+script = ExtResource( 3 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/KinematicBody2D"]
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+>>>>>>> fbefa1de688a0e79c187894aa3c89fdaf6fafa95
 

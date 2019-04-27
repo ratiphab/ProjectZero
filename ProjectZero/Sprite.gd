@@ -1,10 +1,9 @@
 extends Sprite
 
-
+var hp 
 
 func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
+	var hp = 500
 	pass
 
 func _process(delta):
