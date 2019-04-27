@@ -1,5 +1,5 @@
 extends Node2D
-var Bullet = preload("res://iconccc.tscn")
+var Bullet = preload("res://Bullet.tscn")
 var Enemy = preload("res://Enemy.tscn")
 var bullets = []
 var Enemys =[]
@@ -9,9 +9,11 @@ func _ready():
 
 func _process(delta):
 	move_bullet(delta)
-	move_enemy(delta)
+	#move_enemy(delta)
 	checkoutline()
-	
+	checkBullet()
+	checkPlayercollisionEnemy()
+	checkEnemycollisionBullet()
 	pass
 
 func _input(event):
@@ -53,3 +55,23 @@ func checkoutline():
 	if $Player.position.y > 570:
 		$Player.position.y = 570
 	pass
+	
+func checkBullet():
+	for bullet in bullets:
+		if bullet.position.x < 0 || bullet.position.x > 1024 || bullet.position.y < 0 || bullet.position.y > 600:
+			bullets.remove(bullets.find(bullet))
+			self.remove_child(bullet)
+		
+func checkPlayercollisionEnemy():
+	for enemy in Enemys:
+		if $Player.position.distance_to(enemy.position)  <= 62:
+			print("check")
+
+func checkEnemycollisionBullet():
+	for enemy in Enemys:
+		for bullet in bullets:
+			if enemy.position.distance_to(bullet.position) <= 40:
+				print("Bang")
+				bullets.remove(bullets.find(bullet))
+				self.remove_child(bullet)
+			
