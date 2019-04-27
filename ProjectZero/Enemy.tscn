@@ -1,14 +1,19 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://pic/char.png" type="Texture" id=1]
 [ext_resource path="res://Enemy.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 30.6786, 31.5983 )
 
 [node name="Enemy" type="Sprite"]
+scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
+vframes = 3
+hframes = 8
 script = ExtResource( 2 )
+physical_frames = "16-22"
+loop = true
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://pic/2.png" type="Texture" id=1]
+[ext_resource path="res://Player.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 28.4131, 32.0584 )
+
+[node name="Player" type="Sprite"]
+scale = Vector2( 3, 3 )
+texture = ExtResource( 1 )
+vframes = 7
+hframes = 9
+script = ExtResource( 2 )
+physical_frames = "0-7"
+loop = true
+
+[node name="KinematicBody2D2" type="KinematicBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D2"]
+shape = SubResource( 1 )
+

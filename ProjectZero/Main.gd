@@ -1,9 +1,14 @@
 extends Node2D
 var Bullet = preload("res://Bullet.tscn")
 var Enemy = preload("res://Enemy.tscn")
+var Player = preload("res://Player.tscn")
 var bullets = []
 var Enemys =[]
 func _ready():
+	var player = Player.instance()
+	add_child(player)
+	player.position.x = 512
+	player.position.y = 300
 	create_enemy()
 	pass
 
@@ -24,6 +29,11 @@ func _input(event):
 			bullet.Bullet_speed = ((get_local_mouse_position() - $Player.position).normalized())*600
 			add_child(bullet)
 			bullets.append(bullet)
+	if event is InputEventKey:
+		if event.scancode == KEY_A  && event.pressed:
+			$Player.flip_h = true
+		elif event.scancode == KEY_D && event.pressed:
+   			$Player.flip_h = false
 			
 func move_bullet(delta):
 	for bullet in bullets:
@@ -61,6 +71,7 @@ func checkBullet():
 		if bullet.position.x < 0 || bullet.position.x > 1024 || bullet.position.y < 0 || bullet.position.y > 600:
 			bullets.remove(bullets.find(bullet))
 			self.remove_child(bullet)
+			print("lost")
 		
 func checkPlayercollisionEnemy():
 	for enemy in Enemys:

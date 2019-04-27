@@ -1,10 +1,27 @@
 extends Sprite
-
-var Enemy_speed = Vector2(0,0)
-var hp
+var hp 
 func _ready():
-	hp = 100 
+	hp = 100
 	pass
+
+
+
+func movePlayer(delta):
+	var player_speed = Vector2()
+
+	if Input.is_key_pressed(KEY_D):
+		player_speed.x = 250
+	elif Input.is_key_pressed(KEY_A):
+		player_speed.x = -250
+	if Input.is_key_pressed(KEY_W):
+		player_speed.y = -250
+	elif Input.is_key_pressed(KEY_S):
+		player_speed.y = 250
+
+	self.translate(player_speed*delta)
+
+#
+
 
 # animation
 export (String) var physical_frames = "0-7,10,15" setget _set_frames_str
@@ -94,6 +111,7 @@ func _set_current_frame(value):
 	self.frame = frame_sequence[current_frame] # update sprite image
 
 func _process(delta):
+	movePlayer(delta)
 	if !playing:
 		return
 
@@ -145,9 +163,7 @@ func pause_toggle():
 		stop()
 	else:
 		play()
-
-# à¸„à¹‰à¸²à¸‡à¸—à¸µà¹ˆà¸ à¸²à¸žà¸—à¸µà¹ˆà¸à¸³à¸¥à¸±à¸‡à¹€à¸¥à¹ˆà¸™à¸­à¸¢à¸¹à¹ˆ
-# à¹à¸•à¹ˆà¸–à¹‰à¸² start à¸ˆà¸° reset à¹„à¸›à¸•à¹‰à¸™
+		
 func stop(reset = false):
 	playing = false
 	if reset:
@@ -159,10 +175,7 @@ func step():
 
 func seek_frame(i):
 	self.current_frame = i
-
-############## Library ###############
-# list : ex. 1-4, 8, 10, 12-15, 9
-# return PoolIntArray
+	
 static func get_int_list(list):
 	var pool = PoolIntArray()
 
