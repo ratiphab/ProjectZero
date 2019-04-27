@@ -1,10 +1,9 @@
 extends Sprite
 
 var Bullet_speed = Vector2()
-
+var damage
 func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
+	damage = 50
 	pass
 
 #func _process(delta):

@@ -9,7 +9,7 @@ func _ready():
 
 func _process(delta):
 	move_bullet(delta)
-	#move_enemy(delta)
+	move_enemy(delta)
 	checkoutline()
 	checkBullet()
 	checkPlayercollisionEnemy()
@@ -71,6 +71,10 @@ func checkEnemycollisionBullet():
 	for enemy in Enemys:
 		for bullet in bullets:
 			if enemy.position.distance_to(bullet.position) <= 40:
+				enemy.hp = enemy.hp - bullet.damage
+				if enemy.hp == 0:
+					Enemys.remove(Enemys.find(enemy))
+					self.remove_child(enemy)
 				print("Bang")
 				bullets.remove(bullets.find(bullet))
 				self.remove_child(bullet)
