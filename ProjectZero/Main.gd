@@ -56,15 +56,15 @@ func move_bullet(delta):
 func move_enemy(delta):
 	for enemy in Enemys:
 		var v_Eneamy =  ((player.position - enemy.position).normalized())*100
-		enemy.translate(v_Eneamy*delta)
+		enemy.move_and_slide(v_Eneamy)
 	pass
 func create_enemy():
 	for a in range(1,3):
 		var enemy = Enemy.instance()
 		if a % 2 == 0:
-			enemy.position = Vector2(200,0) 
+			enemy.position = Vector2(200,500) 
 		else:
-			enemy.position = Vector2(0,200) 
+			enemy.position = Vector2(600,200) 
 		add_child(enemy)
 		Enemys.append(enemy)
 	pass
