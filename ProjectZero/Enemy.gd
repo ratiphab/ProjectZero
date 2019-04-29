@@ -2,6 +2,7 @@ extends Sprite
 
 var Enemy_speed = Vector2(0,0)
 var hp
+var damage = 20
 func _ready():
 	hp = 100 
 	pass
