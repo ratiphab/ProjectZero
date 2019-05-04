@@ -9,11 +9,15 @@ var bullets = []
 var bullets2 = []
 var Enemys = []
 var Effects = []
+var areas = []
 func _ready():
+	areas = $TileMap2.get_cell_autotile_coord(0,0)
 	add_child(player)
 	player.position.x = 512
 	player.position.y = 300
 	create_enemy()
+	for area in areas:
+		print(area)
 	pass
 
 func _process(delta):
@@ -25,9 +29,17 @@ func _process(delta):
 	checkEnemycollisionBullet()
 	checkEnemycollisionEnemy(delta)
 	checkEffect()
+	#checkBulletcollsionWall()
+	pass
+	
+func checkBulletcollsionWall():
+	
+
+	for area in areas:
+		print(area)
 	
 	pass
-
+	
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.is_pressed() && event.button_mask == 1: 
@@ -82,7 +94,12 @@ func checkoutline():
 	
 func checkBullet():
 	for bullet in bullets:
-		if bullet.position.x < 0 || bullet.position.x > 1024 || bullet.position.y < 0 || bullet.position.y > 600:
+		if bullet.position.x < 0 || bullet.position.x > 1024 || bullet.position.y < 0 || bullet.position.y > 600||bullet.isdis:
+			print("Effect")
+			var effect = Effect.instance()
+			effect.position = bullet.position
+			add_child(effect)
+			Effects.append(effect)
 			bullets.remove(bullets.find(bullet))
 			self.remove_child(bullet)
 			
