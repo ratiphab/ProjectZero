@@ -71,10 +71,14 @@ func move_enemy(delta):
 		enemy.move_and_slide(v_Eneamy)
 	pass
 func create_enemy():
-	for a in range(1,3):
+	for a in range(1,5):
 		var enemy = Enemy.instance()
-		if a % 2 == 0:
+		if a % 4 == 0:
 			enemy.position = Vector2(200,500) 
+		elif a % 4 == 1:
+			enemy.position = Vector2(1000,200)
+		elif a % 4 == 3:
+			enemy.position = Vector2(600,500)
 		else:
 			enemy.position = Vector2(600,200) 
 		add_child(enemy)
