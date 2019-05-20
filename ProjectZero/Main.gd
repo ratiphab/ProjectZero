@@ -152,7 +152,6 @@ func checkEnemycollisionBullet():
 				add_child(effect)
 				Effects.append(effect)
 				enemy.hp = enemy.hp - (bullet.damage * Ddamage)
-				print(enemy.hp)
 				if enemy.hp <= 0:
 					randomItem(enemy)
 					Enemys.remove(Enemys.find(enemy))
