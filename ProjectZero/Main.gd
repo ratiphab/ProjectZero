@@ -45,14 +45,17 @@ func _process(delta):
 		pickHeart()
 		pickSpeed()
 		pickPower()
+		$Arrow.visible = false
 	if timeout && Enemys.size() == 0 :
+		$Arrow.visible = true
 		print("------------")
 		print("Success")
 		print("------------")
-		$TileMap.visible = false
-		$TileMap2.visible = false
-		$Control.visible = false 
-		player.visible = false
+		
+#		$TileMap.visible = false
+#		$TileMap2.visible = false
+#		$Control.visible = false 
+#		player.visible = false
 	pass
 	
 func checkBulletcollsionWall():
@@ -73,19 +76,6 @@ func _input(event):
 			bullet.Bullet_speed = ((get_local_mouse_position() - player.position).normalized())*600
 			add_child(bullet)
 			bullets.append(bullet)
-#			var bullet2 = Bullet.instance()
-#			bullet2.position = player.position
-#			bullet2.Bullet_speed = get_local_mouse_position() - player.position
-#			bullet2.Bullet_speed.x = bullet2.Bullet_speed.x * cos(rad2deg(45))
-#			bullet2.Bullet_speed.y = bullet2.Bullet_speed.y * sin(rad2deg(45))
-#			bullet2.Bullet_speed = bullet2.Bullet_speed.normalized()*600
-#			add_child(bullet2)
-#			bullets.append(bullet2)
-			#var bullet3 = Bullet.instance()
-			#bullet3.position = player.position
-			#bullet3.Bullet_speed = (((get_local_mouse_position()*sin(120)) - player.position).normalized())*600
-			#add_child(bullet3)
-			#bullets.append(bullet3)
 		if event.is_pressed() && event.button_mask == 2 && bullet2_cd && !player.is_dead:
 			bullet2_cd = false
 			$Timer_bullet_2.start(0)
@@ -174,7 +164,8 @@ func checkEnemycollisionBullet():
 				add_child(effect)
 				Effects.append(effect)
 				enemy.hp = enemy.hp - (bullet.damage * Ddamage)
-				if enemy.hp == 0:
+				print(enemy.hp)
+				if enemy.hp <= 0:
 					randomItem(enemy)
 					Enemys.remove(Enemys.find(enemy))
 					self.remove_child(enemy)
@@ -243,13 +234,14 @@ func _on_Timer_bullet_2_timeout():
 
 
 func _on_Timer_per_state_timeout():
-#	if !timeout:
-#		timeout = true
+	
+	if !timeout:
+		timeout = true
 	pass # Replace with function body.
 
 func randomItem(enemy):
 	var ran = randi()%10
-	if ran == 8:
+	if ran == 8 || ran == 4:
 		var heart = ItemHeart.instance()
 		heart.position = enemy.position
 		add_child(heart)
@@ -259,7 +251,7 @@ func randomItem(enemy):
 		power.position = enemy.position
 		add_child(power)
 		itempowers.append(power)
-	elif ran == 3:
+	elif ran == 7:
 		var speed = ItemSpeed.instance()
 		speed.position = enemy.position 
 		add_child(speed)
@@ -268,10 +260,11 @@ func randomItem(enemy):
 
 func pickHeart():
 	for item in itemhearts:
-		if player.position.distance_to(item.position) <= 40:
-			player.hp = player.hp + item.hp
-			itemhearts.remove(itemhearts.find(item))
-			self.remove_child(item)
+		if !player.hp == 100:
+			if player.position.distance_to(item.position) <= 40:
+				player.hp = player.hp + item.hp
+				itemhearts.remove(itemhearts.find(item))
+				self.remove_child(item)
 
 func pickSpeed():
 	for item in itemspeeds:
