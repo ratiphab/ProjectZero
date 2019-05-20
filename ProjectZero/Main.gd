@@ -42,9 +42,11 @@ func _process(delta):
 		checkEnemycollisionBullet2()
 		checkEnemycollisionEffect2()
 		checkHPbar()
+		checkTimebar()
 		pickHeart()
 		pickSpeed()
 		pickPower()
+		checkCd2bar()
 		$Arrow.visible = false
 	if timeout && Enemys.size() == 0 :
 		$Arrow.visible = true
@@ -200,11 +202,12 @@ func checkEffect():
 	
 
 func _on_Timer_Monster_timeout():
-	create_enemy()
+	#create_enemy()
 	pass # Replace with function body.
 
 
 func _on_Timer_bullet_1_timeout():
+	$Timer_bullet_1.stop()
 	if !bullet1_cd :
 		bullet1_cd = true
 	pass # Replace with function body.
@@ -228,6 +231,7 @@ func checkHPbar():
 	$Control/HBoxContainer/TextureProgress.value = player.hp
 
 func _on_Timer_bullet_2_timeout():
+	$Timer_bullet_2.stop()
 	if !bullet2_cd :
 		bullet2_cd = true
 	pass # Replace with function body.
@@ -289,3 +293,24 @@ func _on_Timer_speed_timeout():
 func _on_Timer_power_timeout():
 	Ddamage = 1
 	pass # Replace with function body.
+	
+func checkTimebar():
+	$Control/HBoxContainer2Timer/TextureProgress.value = (int((100 * ($Timer_per_state.time_left))/60))
+
+func checkCd2bar():
+	var time = int($Timer_bullet_2.time_left)
+	print(time)
+	if time == 5:
+		$Control/HBoxContainerCD2/TextureProgress.value = 0
+	elif time == 4:
+		$Control/HBoxContainerCD2/TextureProgress.value = 20
+	elif time == 3:
+		$Control/HBoxContainerCD2/TextureProgress.value = 40
+	elif time == 2:
+		$Control/HBoxContainerCD2/TextureProgress.value = 60
+	elif time == 1:
+		$Control/HBoxContainerCD2/TextureProgress.value = 80
+	elif time == 0:
+		$Control/HBoxContainerCD2/TextureProgress.value = 100
+	pass
+	

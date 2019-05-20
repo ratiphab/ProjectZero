@@ -1,11 +1,15 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://IsomaticTileSet.tres" type="TileSet" id=2]
 [ext_resource path="res://pic/bar.png" type="Texture" id=3]
 [ext_resource path="res://pic/energy-bar.png" type="Texture" id=4]
-[ext_resource path="res://arrow.png" type="Texture" id=5]
-[ext_resource path="res://Bullet.gd" type="Script" id=6]
+[ext_resource path="res://pic/coolDown-bar.png" type="Texture" id=5]
+[ext_resource path="res://pic/coolDown-bar-bg.png" type="Texture" id=6]
+[ext_resource path="res://pic/clock.png" type="Texture" id=7]
+[ext_resource path="res://pic/clock-yellow.png" type="Texture" id=8]
+[ext_resource path="res://arrow.png" type="Texture" id=9]
+[ext_resource path="res://Bullet.gd" type="Script" id=10]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -38,7 +42,7 @@ wait_time = 0.4
 wait_time = 5.0
 
 [node name="Timer_per_state" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 60.0
 autostart = true
 
 [node name="Timer_speed" type="Timer" parent="."]
@@ -63,10 +67,39 @@ rect_scale = Vector2( 0.5, 0.5 )
 [node name="TextureProgress" type="TextureProgress" parent="Control/HBoxContainer"]
 margin_right = 470.0
 margin_bottom = 60.0
-value = 50.0
+value = 79.0
 rounded = true
 texture_under = ExtResource( 3 )
 texture_progress = ExtResource( 4 )
+
+[node name="HBoxContainerCD2" type="HBoxContainer" parent="Control"]
+margin_left = -838.949
+margin_top = 24.8639
+margin_right = -603.949
+margin_bottom = 84.8639
+rect_scale = Vector2( 0.5, 0.5 )
+
+[node name="TextureProgress" type="TextureProgress" parent="Control/HBoxContainerCD2"]
+margin_right = 235.0
+margin_bottom = 60.0
+value = 100.0
+rounded = true
+texture_under = ExtResource( 5 )
+texture_progress = ExtResource( 6 )
+
+[node name="HBoxContainer2Timer" type="HBoxContainer" parent="Control"]
+margin_left = -288.737
+margin_top = 22.8801
+margin_right = 11.2626
+margin_bottom = 82.8801
+rect_scale = Vector2( 0.6, 0.6 )
+
+[node name="TextureProgress" type="TextureProgress" parent="Control/HBoxContainer2Timer"]
+margin_right = 300.0
+margin_bottom = 60.0
+value = 100.0
+texture_under = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 
 [node name="Arrow" type="Area2D" parent="."]
 position = Vector2( 508.448, 569.149 )
@@ -76,9 +109,9 @@ scale = Vector2( 0.5, 0.5 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="Arrow"]
-texture = ExtResource( 5 )
+texture = ExtResource( 9 )
 hframes = 3
-script = ExtResource( 6 )
+script = ExtResource( 10 )
 physical_frames = "0-2"
 loop = true
 
