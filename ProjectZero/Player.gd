@@ -1,7 +1,6 @@
 extends Sprite
-var hp 
+
 func _ready():
-	hp = 100
 	pass
 
 

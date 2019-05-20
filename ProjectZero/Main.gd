@@ -10,25 +10,23 @@ var bullets2 = []
 var Enemys = []
 var Effects = []
 var areas = []
+var bullet1_cd = true
 func _ready():
-	areas = $TileMap2.get_cell_autotile_coord(0,0)
 	add_child(player)
 	player.position.x = 512
 	player.position.y = 300
 	create_enemy()
-	for area in areas:
-		print(area)
-	pass
 
 func _process(delta):
-	move_bullet(delta)
-	move_enemy(delta)
-	checkoutline()
-	checkBullet()
-	checkPlayercollisionEnemy(delta)
-	checkEnemycollisionBullet()
-	checkEnemycollisionEnemy(delta)
-	checkEffect()
+	if !player.is_dead:
+		move_bullet(delta)
+		move_enemy(delta)
+		checkoutline()
+		checkBullet()
+		checkPlayercollisionEnemy(delta)
+		checkEnemycollisionBullet()
+		checkEnemycollisionEnemy(delta)
+		checkEffect()
 	#checkBulletcollsionWall()
 	pass
 	
@@ -42,13 +40,27 @@ func checkBulletcollsionWall():
 	
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.is_pressed() && event.button_mask == 1: 
+		if event.is_pressed() && event.button_mask == 1 && bullet1_cd && !player.is_dead:
+			bullet1_cd = false
+			$Timer_bullet_1.start(0)
 			var bullet = Bullet.instance()
 			bullet.position = player.position
 			bullet.Bullet_speed = ((get_local_mouse_position() - player.position).normalized())*600
 			add_child(bullet)
 			bullets.append(bullet)
-			print(player.position)
+#			var bullet2 = Bullet.instance()
+#			bullet2.position = player.position
+#			bullet2.Bullet_speed = get_local_mouse_position() - player.position
+#			bullet2.Bullet_speed.x = bullet2.Bullet_speed.x * cos(rad2deg(45))
+#			bullet2.Bullet_speed.y = bullet2.Bullet_speed.y * sin(rad2deg(45))
+#			bullet2.Bullet_speed = bullet2.Bullet_speed.normalized()*600
+#			add_child(bullet2)
+#			bullets.append(bullet2)
+			#var bullet3 = Bullet.instance()
+			#bullet3.position = player.position
+			#bullet3.Bullet_speed = (((get_local_mouse_position()*sin(120)) - player.position).normalized())*600
+			#add_child(bullet3)
+			#bullets.append(bullet3)
 		if event.is_pressed() && event.button_mask == 2:
 			var bullet2 = Bullet2.instance()
 			bullet2.position = player.position
@@ -145,3 +157,13 @@ func checkEffect():
 		if effect.frame == 30:
 			Effects.remove(Effects.find(effect))
 			self.remove_child(effect)
+
+func _on_Timer_Monster_timeout():
+	#create_enemy()
+	pass # Replace with function body.
+
+
+func _on_Timer_bullet_1_timeout():
+	if !bullet1_cd :
+		bullet1_cd = true
+	pass # Replace with function body.
