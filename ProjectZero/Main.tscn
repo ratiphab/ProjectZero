@@ -43,7 +43,6 @@ wait_time = 3.0
 
 [node name="Timer_Monster" type="Timer" parent="."]
 wait_time = 5.0
-autostart = true
 
 [node name="Timer_bullet_1" type="Timer" parent="."]
 wait_time = 0.4

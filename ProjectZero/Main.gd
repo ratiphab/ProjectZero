@@ -54,6 +54,37 @@ func _process(delta):
 #		$TileMap2.visible = false
 #		$Control.visible = false 
 #		player.visible = false
+	if Input.is_key_pressed(KEY_ENTER):
+		if player.is_dead:
+			$Timer_per_state.stop()
+			player.hp = 100
+			timeout = false
+			$Arrow.visible = false
+			for item in itemhearts:
+				self.remove_child(item)
+				itemhearts.remove(itemhearts.find(item))
+			for item in itempowers:
+				self.remove_child(item)
+				itempowers.remove(itempowers.find(item))
+			for item in itemspeeds:
+				self.remove_child(item)
+				itemspeeds.remove(itemspeeds.find(item))
+			itemhearts.clear()
+			itempowers.clear()
+			itemspeeds.clear()
+			player.position = Vector2(512,100)
+			numstate = 1
+			$TileMap.visible = true 
+			$TileMap2.visible = true 
+			$TileMap3.visible = false
+			var timeout = false
+			var prepare = true
+			$Timer_prepare_before_start.start(0)
+			$Timer_Monster.stop()
+			for enemy in Enemys:
+				self.remove_child(enemy)
+			Enemys.clear()
+			player.is_dead = false
 	pass
 	
 func _input(event):
@@ -281,11 +312,20 @@ func checkCd2bar():
 		$Control/HBoxContainerCD2/TextureProgress.value = 100
 	pass
 func checknextstate():
-	if player.position.distance_to($Arrow.position) <=40:
+	if player.position.distance_to($Arrow.position) <=40 && $Arrow.visible:
 		player.position = Vector2(512,100)
 		$Timer_prepare.start(0)
 		visible = false
-		numstate = numstate +1	
+		numstate = numstate +1
+		for item in itemhearts:
+			self.remove_child(item)
+			itemhearts.remove(itemhearts.find(item))
+		for item in itempowers:
+			self.remove_child(item)
+			itempowers.remove(itempowers.find(item))
+		for item in itemspeeds:
+			self.remove_child(item)
+			itemspeeds.remove(itemspeeds.find(item))
 func _on_Timer_prepare_timeout():
 	visible = true
 	prepare = true
@@ -302,6 +342,7 @@ func Gonextstate():
 		$Arrow.visible = true
 func _on_Timer_prepare_before_start_timeout():
 	$Timer_prepare_before_start.stop()
+	$Timer_Monster.start(0)
 	prepare = false
 	create_enemy()
 	$Timer_per_state.start(0)
