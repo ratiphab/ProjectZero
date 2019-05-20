@@ -40,6 +40,9 @@ autostart = true
 [node name="Timer_speed" type="Timer" parent="."]
 wait_time = 3.0
 
+[node name="Timer_power" type="Timer" parent="."]
+wait_time = 3.0
+
 [node name="Control" type="Control" parent="."]
 margin_left = 869.997
 margin_top = -8.77222
@@ -66,3 +69,4 @@ texture_progress = ExtResource( 4 )
 [connection signal="timeout" from="Timer_bullet_2" to="." method="_on_Timer_bullet_2_timeout"]
 [connection signal="timeout" from="Timer_per_state" to="." method="_on_Timer_per_state_timeout"]
 [connection signal="timeout" from="Timer_speed" to="." method="_on_Timer_speed_timeout"]
+[connection signal="timeout" from="Timer_power" to="." method="_on_Timer_power_timeout"]

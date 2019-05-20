@@ -44,6 +44,7 @@ func _process(delta):
 		checkHPbar()
 		pickHeart()
 		pickSpeed()
+		pickPower()
 	if timeout && Enemys.size() == 0 :
 		print("------------")
 		print("Success")
@@ -247,7 +248,7 @@ func _on_Timer_per_state_timeout():
 	pass # Replace with function body.
 
 func randomItem(enemy):
-	var ran = randi()%6
+	var ran = randi()%10
 	if ran == 1:
 		var heart = ItemHeart.instance()
 		heart.position = enemy.position
@@ -280,7 +281,20 @@ func pickSpeed():
 			itemspeeds.remove(itemspeeds.find(item))
 			self.remove_child(item)
 
+func pickPower():
+	for item in itempowers:
+		if player.position.distance_to(item.position) <= 40:
+			Ddamage = 2
+			$Timer_power.start()
+			itemspeeds.remove(itemspeeds.find(item))
+			self.remove_child(item)
+
 
 func _on_Timer_speed_timeout():
 	player.speed = 200
+	pass # Replace with function body.
+
+
+func _on_Timer_power_timeout():
+	Ddamage = 1
 	pass # Replace with function body.
