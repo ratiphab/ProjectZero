@@ -18,7 +18,7 @@ var areas = []
 var bullet1_cd = true
 var bullet2_cd = true
 var timeout = false
-var prepare = false
+var prepare = true
 var itemhearts = []
 var itempowers = []
 var itemspeeds = []
@@ -28,7 +28,6 @@ func _ready():
 	add_child(player)
 	player.position.x = 512
 	player.position.y = 300
-	create_enemy()
 
 func _process(delta):
 	if !player.is_dead :
@@ -305,5 +304,6 @@ func Gonextstate():
 func _on_Timer_prepare_before_start_timeout():
 	$Timer_prepare_before_start.stop()
 	prepare = false
+	create_enemy()
 	$Timer_per_state.start(0)
 	pass # Replace with function body.
