@@ -249,7 +249,7 @@ func _on_Timer_per_state_timeout():
 
 func randomItem(enemy):
 	var ran = randi()%10
-	if ran == 1:
+	if ran == 8:
 		var heart = ItemHeart.instance()
 		heart.position = enemy.position
 		add_child(heart)
@@ -288,13 +288,11 @@ func pickPower():
 			$Timer_power.start()
 			itemspeeds.remove(itemspeeds.find(item))
 			self.remove_child(item)
-
-
+			
 func _on_Timer_speed_timeout():
 	player.speed = 200
 	pass # Replace with function body.
-
-
+	
 func _on_Timer_power_timeout():
 	Ddamage = 1
 	pass # Replace with function body.
