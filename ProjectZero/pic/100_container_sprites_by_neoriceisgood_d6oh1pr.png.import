@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/fire-Bar-bg.png-354658232956b3f08a6f6f4b7c91eece.stex"
+path="res://.import/100_container_sprites_by_neoriceisgood_d6oh1pr.png-86210df4b3829e2f92c4b195f0a1bc4c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pic/fire-Bar-bg.png"
-dest_files=[ "res://.import/fire-Bar-bg.png-354658232956b3f08a6f6f4b7c91eece.stex" ]
+source_file="res://pic/100_container_sprites_by_neoriceisgood_d6oh1pr.png"
+dest_files=[ "res://.import/100_container_sprites_by_neoriceisgood_d6oh1pr.png-86210df4b3829e2f92c4b195f0a1bc4c.stex" ]
 
 [params]
 

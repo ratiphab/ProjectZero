@@ -18,10 +18,12 @@ var areas = []
 var bullet1_cd = true
 var bullet2_cd = true
 var timeout = false
+var prepare = false
 var itemhearts = []
 var itempowers = []
 var itemspeeds = []
 var Ddamage = 1 
+var numstate = 1
 func _ready():
 	add_child(player)
 	player.position.x = 512
@@ -29,7 +31,7 @@ func _ready():
 	create_enemy()
 
 func _process(delta):
-	if !player.is_dead:
+	if !player.is_dead :
 		move_bullet(delta)
 		move_enemy(delta)
 		checkoutline()
@@ -47,25 +49,12 @@ func _process(delta):
 		pickSpeed()
 		pickPower()
 		checkCd2bar()
-		$Arrow.visible = false
-	if timeout && Enemys.size() == 0 :
-		$Arrow.visible = true
-		print("------------")
-		print("Success")
-		print("------------")
-		
+		checknextstate()
+		Gonextstate()
 #		$TileMap.visible = false
 #		$TileMap2.visible = false
 #		$Control.visible = false 
 #		player.visible = false
-	pass
-	
-func checkBulletcollsionWall():
-	
-
-	for area in areas:
-		print(area)
-	
 	pass
 	
 func _input(event):
@@ -92,7 +81,6 @@ func _input(event):
 			player.set_flip(true)
 		elif event.scancode == KEY_D && event.pressed:
  			player.set_flip(false)
-			
 func move_bullet(delta):
 	for bullet in bullets:
 		bullet.translate(bullet.Bullet_speed*delta)
@@ -155,7 +143,6 @@ func checkPlayercollisionEnemy(delta):
 			var impact = (enemy.position - player.position).normalized() * 100
 			enemy.translate(delta*impact*40)
 			player.hp = player.hp - enemy.damage
-			print(player.hp)
 
 func checkEnemycollisionBullet():
 	for enemy in Enemys:
@@ -199,25 +186,20 @@ func checkEffect():
 		if effect.frame == 30:
 			Effects.remove(Effects.find(effect))
 			self.remove_child(effect)
-	
-
 func _on_Timer_Monster_timeout():
-	#create_enemy()
+	if !prepare:
+		create_enemy()
 	pass # Replace with function body.
-
-
 func _on_Timer_bullet_1_timeout():
 	$Timer_bullet_1.stop()
 	if !bullet1_cd :
 		bullet1_cd = true
 	pass # Replace with function body.
-	
 func checkEffect2():
 	for effect2 in Effects2:
 		if effect2.getframe() == 30:
 			Effects2.remove(Effects2.find(effect2))
 			self.remove_child(effect2)
-
 func checkEnemycollisionEffect2():
 	for enemy in Enemys:
 		for effect in Effects2:
@@ -226,23 +208,19 @@ func checkEnemycollisionEffect2():
 				if enemy.hp < 0:
 					Enemys.remove(Enemys.find(enemy))
 					self.remove_child(enemy)
-
 func checkHPbar():
 	$Control/HBoxContainer/TextureProgress.value = player.hp
-
 func _on_Timer_bullet_2_timeout():
 	$Timer_bullet_2.stop()
 	if !bullet2_cd :
 		bullet2_cd = true
 	pass # Replace with function body.
-
-
 func _on_Timer_per_state_timeout():
-	
+	$Timer_per_state.stop()
+	prepare = true
 	if !timeout:
 		timeout = true
 	pass # Replace with function body.
-
 func randomItem(enemy):
 	var ran = randi()%10
 	if ran == 8 || ran == 4:
@@ -260,8 +238,6 @@ func randomItem(enemy):
 		speed.position = enemy.position 
 		add_child(speed)
 		itemspeeds.append(speed)
-		
-
 func pickHeart():
 	for item in itemhearts:
 		if !player.hp == 100:
@@ -269,7 +245,6 @@ func pickHeart():
 				player.hp = player.hp + item.hp
 				itemhearts.remove(itemhearts.find(item))
 				self.remove_child(item)
-
 func pickSpeed():
 	for item in itemspeeds:
 		if player.position.distance_to(item.position) <= 40:
@@ -277,7 +252,6 @@ func pickSpeed():
 			$Timer_speed.start()
 			itemspeeds.remove(itemspeeds.find(item))
 			self.remove_child(item)
-
 func pickPower():
 	for item in itempowers:
 		if player.position.distance_to(item.position) <= 40:
@@ -285,21 +259,16 @@ func pickPower():
 			$Timer_power.start()
 			itemspeeds.remove(itemspeeds.find(item))
 			self.remove_child(item)
-			
 func _on_Timer_speed_timeout():
 	player.speed = 200
 	pass # Replace with function body.
-	
 func _on_Timer_power_timeout():
 	Ddamage = 1
-	pass # Replace with function body.
-	
+	pass # Replace with function body.	
 func checkTimebar():
-	$Control/HBoxContainer2Timer/TextureProgress.value = (int((100 * ($Timer_per_state.time_left))/60))
-
+	$Control/HBoxContainer2Timer/TextureProgress.value = (int((100 * ($Timer_per_state.time_left))/10))
 func checkCd2bar():
 	var time = int($Timer_bullet_2.time_left)
-	print(time)
 	if time == 5:
 		$Control/HBoxContainerCD2/TextureProgress.value = 0
 	elif time == 4:
@@ -313,4 +282,28 @@ func checkCd2bar():
 	elif time == 0:
 		$Control/HBoxContainerCD2/TextureProgress.value = 100
 	pass
-	
+func checknextstate():
+	if player.position.distance_to($Arrow.position) <=40:
+		player.position = Vector2(512,100)
+		$Timer_prepare.start(0)
+		visible = false
+		numstate = numstate +1	
+func _on_Timer_prepare_timeout():
+	visible = true
+	prepare = true
+	$Arrow.visible = false
+	$Timer_prepare_before_start.start(0)
+	player.position = Vector2(512,100)
+	$Timer_prepare.stop()
+	if numstate == 2:
+		$TileMap2.visible = false
+	pass # Replace with function body.
+func Gonextstate():
+	if timeout && Enemys.size() == 0 :
+		timeout = false
+		$Arrow.visible = true
+func _on_Timer_prepare_before_start_timeout():
+	$Timer_prepare_before_start.stop()
+	prepare = false
+	$Timer_per_state.start(0)
+	pass # Replace with function body.
