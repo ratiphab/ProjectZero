@@ -8,13 +8,16 @@ var Effect2 = preload("res://effect2.tscn")
 var ItemHeart = preload("res://Itemheart.tscn")
 var ItemPower = preload("res://Itempower.tscn")
 var ItemSpeed = preload("res://Itemspeed.tscn")
+var Tilemap2 = preload("res://TileMap2.tscn")
+var Tilemap3 = preload("res://TileMap3.tscn")
+var tilemap2 = Tilemap2.instance()
+var tilemap3 = Tilemap3.instance()
 var player = Player.instance()
 var bullets = []
 var bullets2 = []
 var Enemys = []
 var Effects = []
 var Effects2 = []
-var areas = []
 var bullet1_cd = true
 var bullet2_cd = true
 var timeout = false
@@ -33,9 +36,9 @@ func _ready():
 func _process(delta):
 	if !player.is_dead :
 		move_bullet(delta)
-		move_enemy(delta)
+		move_enemy()
 		checkoutline()
-		checkBullet()
+		checkBullet(numstate)
 		checkPlayercollisionEnemy(delta)
 		checkEnemycollisionBullet()
 		checkEnemycollisionEnemy(delta)
@@ -51,10 +54,6 @@ func _process(delta):
 		checkCd2bar()
 		checknextstate()
 		Gonextstate()
-#		$TileMap.visible = false
-#		$TileMap2.visible = false
-#		$Control.visible = false 
-#		player.visible = false
 	if Input.is_key_pressed(KEY_ENTER):
 		if player.is_dead:
 			$Timer_per_state.stop()
@@ -68,9 +67,8 @@ func _process(delta):
 			numstate = 1
 			$TileMap.visible = true 
 			$TileMap2.visible = true 
-			$TileMap3.visible = false
-			var timeout = false
-			var prepare = true
+			timeout = false
+			prepare = true
 			$Timer_prepare_before_start.start(0)
 			$Timer_Monster.stop()
 			for enemy in Enemys:
@@ -109,7 +107,7 @@ func move_bullet(delta):
 	for bullet in bullets2:
 		bullet.translate(bullet.Bullet_speed*delta)
 	pass
-func move_enemy(delta):
+func move_enemy():
 	for enemy in Enemys:
 		var v_Eneamy =  ((player.position - enemy.position).normalized())*100
 		enemy.move_and_slide(v_Eneamy)
@@ -141,23 +139,41 @@ func checkoutline():
 		player.position.y = 570
 	pass
 	
-func checkBullet():
-	for bullet in bullets:
-		if bullet.position.x < 0 || bullet.position.x > 1024 || bullet.position.y < 0 || bullet.position.y > 600||bullet.isdis:
-			var effect = Effect.instance()
-			effect.position = bullet.position
-			add_child(effect)
-			Effects.append(effect)
-			bullets.remove(bullets.find(bullet))
-			self.remove_child(bullet)
-	for bullet2 in bullets2:
-		if bullet2.position.x < 0 || bullet2.position.x > 1024 || bullet2.position.y < 0 || bullet2.position.y > 600||bullet2.isdis:
-			var effect2 = Effect2.instance()
-			effect2.position = bullet2.position
-			add_child(effect2)
-			Effects2.append(effect2)
-			bullets2.remove(bullets2.find(bullet2))
-			self.remove_child(bullet2)	
+func checkBullet(numstate):
+	if numstate == 1:
+		for bullet in bullets:
+			if bullet.position.x < 0 || bullet.position.x > 1024 || bullet.position.y < 0 || bullet.position.y > 600||bullet.isdis && $TileMap2.visible :
+				var effect = Effect.instance()
+				effect.position = bullet.position
+				add_child(effect)
+				Effects.append(effect)
+				bullets.remove(bullets.find(bullet))
+				self.remove_child(bullet)
+		for bullet2 in bullets2:
+			if bullet2.position.x < 0 || bullet2.position.x > 1024 || bullet2.position.y < 0 || bullet2.position.y > 600||bullet2.isdis && $TileMap2.visible:
+				var effect2 = Effect2.instance()
+				effect2.position = bullet2.position
+				add_child(effect2)
+				Effects2.append(effect2)
+				bullets2.remove(bullets2.find(bullet2))
+				self.remove_child(bullet2)
+	elif numstate == 2 :
+		for bullet in bullets:
+			if bullet.position.x < 0 || bullet.position.x > 1024 || bullet.position.y < 0 || bullet.position.y > 600||bullet.isdis && tilemap2.visible :
+				var effect = Effect.instance()
+				effect.position = bullet.position
+				add_child(effect)
+				Effects.append(effect)
+				bullets.remove(bullets.find(bullet))
+				self.remove_child(bullet)
+		for bullet2 in bullets2:
+			if bullet2.position.x < 0 || bullet2.position.x > 1024 || bullet2.position.y < 0 || bullet2.position.y > 600||bullet2.isdis && tilemap2.visible:
+				var effect2 = Effect2.instance()
+				effect2.position = bullet2.position
+				add_child(effect2)
+				Effects2.append(effect2)
+				bullets2.remove(bullets2.find(bullet2))
+				self.remove_child(bullet2)
 		
 func checkPlayercollisionEnemy(delta):
 	for enemy in Enemys:
@@ -318,7 +334,10 @@ func _on_Timer_prepare_timeout():
 	player.position = Vector2(512,100)
 	$Timer_prepare.stop()
 	if numstate == 2:
-		$TileMap2.visible = false
+		self.remove_child($TileMap2)
+		self.add_child(tilemap2)
+		print(self.get_path_to(tilemap2))
+		print(self.get_path_to($TileMap))
 	pass # Replace with function body.
 func Gonextstate():
 	if timeout && Enemys.size() == 0 :

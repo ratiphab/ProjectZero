@@ -3,6 +3,7 @@ extends Area2D
 var Bullet_speed
 var isdis = false
 var damage = 50 
+var a  = "@"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -14,6 +15,6 @@ func _ready():
 
 
 func _on_Area2D_body_entered(body):
-	if body.name == "TileMap2":
+	if body.name == "TileMap2" || body.name.begins_with("@"):
 		isdis = true
 	pass # Replace with function body.

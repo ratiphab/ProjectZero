@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://pic/wall_inner_corner_l_top_left.png" type="Texture" id=1]
 [ext_resource path="res://pic/wall_corner_right.png" type="Texture" id=2]
@@ -18,12 +18,13 @@
 [ext_resource path="res://pic/doors_leaf_open.png" type="Texture" id=16]
 [ext_resource path="res://pic/doors_frame_left.png" type="Texture" id=17]
 [ext_resource path="res://pic/doors_frame_righ.png" type="Texture" id=18]
+[ext_resource path="res://pic/plant3.png" type="Texture" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8.17743, 8.25434 )
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 8.22714, 8.17545 )
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 8.1402, 8.234 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 8.43448, 8.12677 )
@@ -77,8 +78,8 @@ centered = false
 [node name="StaticBody2D" type="StaticBody2D" parent="CornerLeft"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CornerLeft/StaticBody2D"]
-position = Vector2( 8.12561, 8.20452 )
-shape = SubResource( 2 )
+position = Vector2( 8.75964, 7.9913 )
+shape = SubResource( 8 )
 
 [node name="CornerTopR" type="Sprite" parent="."]
 editor/display_folded = true
@@ -93,6 +94,7 @@ centered = false
 polygon = PoolVector2Array( 10.8922, -0.0892029, 15.9884, 0.0606842, 15.9135, 15.9491, -0.0498466, 16.1739, 0.0251007, 11.8271, 10.8922, 11.8271 )
 
 [node name="box1" type="Sprite" parent="."]
+editor/display_folded = true
 position = Vector2( 108.007, 209.476 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
@@ -191,6 +193,7 @@ position = Vector2( 7.91315, 14.538 )
 shape = SubResource( 6 )
 
 [node name="Door" type="Sprite" parent="."]
+editor/display_folded = true
 position = Vector2( 352, 288 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 16 )
@@ -215,6 +218,7 @@ centered = false
 polygon = PoolVector2Array( -0.24469, 11.5564, 12.1473, 11.6815, 12.1473, 7.67604, 15.7773, 2.79433, 16.1529, 31.9594, -0.119507, 32.0846 )
 
 [node name="Door3" type="Sprite" parent="."]
+editor/display_folded = true
 position = Vector2( 704, 288 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 18 )
@@ -224,4 +228,15 @@ centered = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Door3/StaticBody2D"]
 polygon = PoolVector2Array( -0.281769, 1.41743, 5.10065, 8.80258, 4.97546, 11.4312, 15.9906, 11.6815, 15.8654, 31.9594, -0.156586, 31.8342 )
+
+[node name="tree" type="Sprite" parent="."]
+position = Vector2( 834.748, 182.737 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 19 )
+centered = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="tree"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="tree/StaticBody2D"]
+polygon = PoolVector2Array( 3.00974, 1.4856, 7.37744, 1.97089, 10.451, 0.0296936, 14.1717, 2.9415, 14.4952, 7.95628, 11.7452, 10.5446, 10.6128, 13.1328, 12.2305, 13.9417, 11.7452, 17.0152, 9.80396, 19.4417, 5.75977, 19.927, 3.6568, 17.8241, 2.52444, 14.7505, 4.95093, 12.8093, 2.36267, 10.221, -0.0638428, 7.95628, 2.36267, 3.9121 )
 
