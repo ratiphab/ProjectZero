@@ -206,7 +206,6 @@ position = Vector2( 16.0221, 15.8969 )
 shape = SubResource( 7 )
 
 [node name="Door2" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 576, 288 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 17 )

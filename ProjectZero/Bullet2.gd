@@ -15,6 +15,6 @@ func _ready():
 
 
 func _on_Area2D_body_entered(body):
-	if body.name == "TileMap2" || body.name == "TileMap3":
+	if body.name == "TileMap2" || body.name.begins_with("@") || body.name == "TileMap2":
 		isdis = true
 	pass # Replace with function body.

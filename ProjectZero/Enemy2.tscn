@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Enemystat2.gd" type="Script" id=1]
+[ext_resource path="res://pic/char.png" type="Texture" id=2]
+[ext_resource path="res://Enemy.gd" type="Script" id=3]
+
+[sub_resource type="CapsuleShape2D" id=1]
+
+[node name="KinematicBody2D" type="KinematicBody2D"]
+scale = Vector2( 3, 3 )
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+vframes = 3
+hframes = 8
+script = ExtResource( 3 )
+physical_frames = "9-15"
+loop = true
+current_frame = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
