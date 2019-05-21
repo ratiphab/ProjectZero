@@ -11,6 +11,8 @@ var ItemPower = preload("res://Itempower.tscn")
 var ItemSpeed = preload("res://Itemspeed.tscn")
 var Tilemap2 = preload("res://TileMap2.tscn")
 var Tilemap3 = preload("res://TileMap3.tscn")
+var Loading = preload("res://Loading.tscn")
+var loading = Loading.instance()
 var tilemap2 = Tilemap2.instance()
 var tilemap3 = Tilemap3.instance()
 var player = Player.instance()
@@ -337,11 +339,25 @@ func checknextstate():
 		else:
 			player.position = Vector2(512,100)
 			$Timer_prepare.start(0)
-			visible = false
+			$TileMap.visible = false
+			if numstate == 1:
+				$TileMap2.visible = false
+			$Control.visible = false
+			player.visible = false
+			tilemap2.visible = false
+			tilemap3.visible = false
+			$Arrow.visible = false
 			numstate = numstate +1
+			add_child(loading)
+			loading.position = Vector2(950,500)
 			deleteAllitem()
 func _on_Timer_prepare_timeout():
-	visible = true
+	$TileMap.visible = true
+	remove_child(loading)
+	$Control.visible = true
+	player.visible = true
+	tilemap2.visible = true
+	tilemap3.visible = true
 	prepare = true
 	$Arrow.visible = false
 	$Timer_prepare_before_start.start(0)
