@@ -24,6 +24,7 @@ var itempowers = []
 var itemspeeds = []
 var Ddamage = 1 
 var numstate = 1
+
 func _ready():
 	add_child(player)
 	player.position.x = 512
@@ -60,18 +61,9 @@ func _process(delta):
 			player.hp = 100
 			timeout = false
 			$Arrow.visible = false
-			for item in itemhearts:
-				self.remove_child(item)
-				itemhearts.remove(itemhearts.find(item))
-			for item in itempowers:
-				self.remove_child(item)
-				itempowers.remove(itempowers.find(item))
-			for item in itemspeeds:
-				self.remove_child(item)
-				itemspeeds.remove(itemspeeds.find(item))
-			itemhearts.clear()
-			itempowers.clear()
-			itemspeeds.clear()
+			visible = false
+			$Timer_prepare.start(0)
+			deleteAllitem()
 			player.position = Vector2(512,100)
 			numstate = 1
 			$TileMap.visible = true 
@@ -251,7 +243,7 @@ func _on_Timer_per_state_timeout():
 		timeout = true
 	pass # Replace with function body.
 func randomItem(enemy):
-	var ran = randi()%10
+	var ran = randi()%8
 	if ran == 8 || ran == 4:
 		var heart = ItemHeart.instance()
 		heart.position = enemy.position
@@ -317,15 +309,7 @@ func checknextstate():
 		$Timer_prepare.start(0)
 		visible = false
 		numstate = numstate +1
-		for item in itemhearts:
-			self.remove_child(item)
-			itemhearts.remove(itemhearts.find(item))
-		for item in itempowers:
-			self.remove_child(item)
-			itempowers.remove(itempowers.find(item))
-		for item in itemspeeds:
-			self.remove_child(item)
-			itemspeeds.remove(itemspeeds.find(item))
+		deleteAllitem()
 func _on_Timer_prepare_timeout():
 	visible = true
 	prepare = true
@@ -347,3 +331,25 @@ func _on_Timer_prepare_before_start_timeout():
 	create_enemy()
 	$Timer_per_state.start(0)
 	pass # Replace with function body.
+func deleteAllitem():
+	var maxindex = 0
+	if itemhearts.size() > maxindex:
+		maxindex = itemhearts.size()
+	elif itemspeeds.size() > maxindex:
+		maxindex = itemspeeds.size()
+	elif itempowers.size() > maxindex:
+		maxindex = itempowers.size()
+	print(maxindex)
+	for a in range(0,maxindex+1):
+		for item in itemhearts:
+			print("delete heart")
+			self.remove_child(item)
+			itemhearts.remove(itemhearts.find(item))
+		for item in itempowers:
+			print("delete power")
+			self.remove_child(item)
+			itempowers.remove(itempowers.find(item))
+		for item in itemspeeds:
+			print("delete speed")
+			self.remove_child(item)
+			itemspeeds.remove(itemspeeds.find(item))
