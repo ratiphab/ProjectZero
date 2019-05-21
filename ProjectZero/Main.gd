@@ -28,6 +28,7 @@ var itempowers = []
 var itemspeeds = []
 var Ddamage = 1 
 var numstate = 1
+var iswin = false
 
 func _ready():
 	add_child(player)
@@ -58,7 +59,6 @@ func _process(delta):
 	
 	if player.is_dead:
 		get_tree().change_scene("Gameover.tscn")
-		
 #			$Timer_per_state.stop()
 #			player.hp = 100
 #			timeout = false
@@ -121,26 +121,20 @@ func create_enemy():
 			var enemy = Enemy.instance()
 			if a % 4 == 0:
 				if numstate == 1:
-					print("swp")
 					enemy.position = Vector2(200,500) 
 				if numstate == 2:
-					print("swp")
 					enemy.position = Vector2(200,500) 
 				if numstate == 3:
-					print("swp")
-					enemy.position = Vector2(400,600)
+					enemy.position = Vector2(160,170) 
 				add_child(enemy)
 				Enemys.append(enemy) 
 			elif a % 4 == 1:
 				if numstate == 1:
-					print("swp")
 					enemy.position = Vector2(1000,200)
 				if numstate == 2:
-					print("swp")
 					enemy.position = Vector2(1000,200) 
 				if numstate == 3:
-					print("swp")
-					enemy.position = Vector2(1000,200)
+					enemy.position = Vector2(930,500) 
 				add_child(enemy)
 				Enemys.append(enemy)
 			elif a % 4 == 3:
@@ -149,7 +143,7 @@ func create_enemy():
 				if numstate == 2:
 					enemy.position = Vector2(600,500)
 				if numstate == 3:
-					enemy.position = Vector2(600,500) 
+					enemy.position = Vector2(500,500) 
 				add_child(enemy)
 				Enemys.append(enemy)
 			else:
@@ -157,8 +151,8 @@ func create_enemy():
 					enemy.position = Vector2(600,200) 
 				if numstate == 2:
 					enemy.position = Vector2(600,200) 
-				if numstate == 2:
-					enemy.position = Vector2(600,200) 
+				if numstate == 3:
+					enemy.position = Vector2(760,160) 
 				add_child(enemy)
 				Enemys.append(enemy)
 	pass
@@ -338,11 +332,14 @@ func checkCd2bar():
 	pass
 func checknextstate():
 	if player.position.distance_to($Arrow.position) <=40 && $Arrow.visible:
-		player.position = Vector2(512,100)
-		$Timer_prepare.start(0)
-		visible = false
-		numstate = numstate +1
-		deleteAllitem()
+		if numstate == 3 :
+			get_tree().change_scene("win.tscn")
+		else:
+			player.position = Vector2(512,100)
+			$Timer_prepare.start(0)
+			visible = false
+			numstate = numstate +1
+			deleteAllitem()
 func _on_Timer_prepare_timeout():
 	visible = true
 	prepare = true

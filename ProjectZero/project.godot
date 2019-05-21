@@ -15,9 +15,9 @@ _global_script_class_icons={
 
 [application]
 
-config/name="sdvsdfsdf"
+config/name="Castle Rush"
 run/main_scene="res://mainMenu.tscn"
-config/icon="res://icon.png"
+config/icon="res://icongame.png"
 
 [rendering]
 
